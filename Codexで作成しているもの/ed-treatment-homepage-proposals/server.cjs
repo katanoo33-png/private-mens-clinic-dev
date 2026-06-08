@@ -8,6 +8,7 @@ http.createServer((req, res) => {
   const url = new URL(req.url, `http://localhost:${port}`);
   let filePath = path.join(root, decodeURIComponent(url.pathname));
   if (url.pathname === '/') filePath = path.join(root, 'index.html');
+  if (url.pathname.endsWith('/')) filePath = path.join(filePath, 'index.html');
   if (!filePath.startsWith(root)) { res.writeHead(403); return res.end('Forbidden'); }
   fs.readFile(filePath, (err, data) => {
     if (err) { res.writeHead(404); return res.end('Not found'); }
