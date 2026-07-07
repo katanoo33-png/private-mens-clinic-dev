@@ -3,367 +3,201 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>うめむら半蔵門内科歯科 | EDオンライン診療</title>
+    <title>Video Craft Studio | Personal Video Flow Dashboard</title>
     <meta
       name="description"
-      content="ED治療のオンライン診療、医師による処方判断、予約枠取得までを一体化したクリニックLPプロトタイプ。"
+      content="個人利用向けの動画設計ダッシュボード。視聴者ごとの開始タイミング、セクション別構成、YouTube公開フロー、Config保存をまとめて管理できます。"
     />
     <link rel="stylesheet" href="./styles.css" />
   </head>
-  <body data-variant="simple">
-    <div class="top-bar">
-      <span>自由診療</span>
-      <span>医師の診察後に処方可否を判断</span>
-      <span>外装から内容が分かりにくい配送に対応</span>
-    </div>
-
-    <header class="site-header">
-      <a class="brand" href="#top" aria-label="うめむら半蔵門内科歯科">
-        <span class="brand-mark">U</span>
-        <span>
-          <strong>うめむら半蔵門内科歯科</strong>
-          <small>EDオンライン診療</small>
-        </span>
-      </a>
-      <nav class="top-nav" aria-label="主要ナビゲーション">
-        <a href="#medicine">処方薬</a>
-        <a href="#price">料金</a>
-        <a href="#booking">予約</a>
-        <a href="#safety">安全性</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-      <a class="header-cta" href="#booking">本日の空き枠</a>
-    </header>
-
-    <main id="top">
-      <section class="hero-section">
-        <div class="hero-copy">
-          <p class="eyebrow">Men's Health Clinic</p>
-          <h1>ED治療を、医師に相談してから自宅で受け取る。</h1>
-          <p class="hero-lead">
-            予約、問診、オンライン診療、処方、配送までを1つの導線にまとめた男性向け自由診療サイト案です。広告流入でも不安を残さず、診療予約へ進みやすい構成にしています。
-          </p>
-
-          <div class="variant-panel" aria-label="ホームページ候補">
-            <button class="variant-tab is-active" type="button" data-variant="simple">
-              シンプル
-              <span>最短予約を強調</span>
-            </button>
-            <button class="variant-tab" type="button" data-variant="detail">
-              丁寧な説明
-              <span>初診の不安を解消</span>
-            </button>
-            <button class="variant-tab" type="button" data-variant="illustration">
-              イラスト活用
-              <span>相談しやすさを演出</span>
-            </button>
-          </div>
-
-          <div class="hero-actions">
-            <a class="primary-button" href="#booking">最短15分後の枠を確認</a>
-            <a class="secondary-button" href="#price">料金を見る</a>
-          </div>
-
-          <dl class="proof-row" aria-label="サービス概要">
-            <div>
-              <dt>診療方法</dt>
-              <dd>オンライン / 来院</dd>
-            </div>
-            <div>
-              <dt>診察料</dt>
-              <dd>0円設計も可</dd>
-            </div>
-            <div>
-              <dt>受け取り</dt>
-              <dd>院内 / 配送</dd>
-            </div>
-          </dl>
+  <body>
+    <div class="backdrop"></div>
+    <header class="app-shell">
+      <div class="topbar">
+        <div>
+          <p class="eyebrow">Personal System</p>
+          <h1>Video Craft Studio</h1>
+          <p class="subtitle">視聴者ごとに開始点と構成を変える、個人用の動画設計ダッシュボード</p>
         </div>
+        <div class="topbar-actions">
+          <button class="ghost-button" type="button" id="saveConfig">Config保存</button>
+          <button class="primary-button" type="button" id="runPreview">フローを再計算</button>
+        </div>
+      </div>
 
-        <div class="hero-media" aria-label="クリニックLPのファーストビュー">
-          <div class="doctor-visual">
-            <div class="portrait-card">
-              <div class="portrait-face"></div>
+      <main class="dashboard">
+        <section class="hero-card">
+          <div class="hero-copy">
+            <p class="eyebrow">Overview</p>
+            <h2>1本の動画を、セクション単位で運用する。</h2>
+            <p>
+              本システムは、YouTubeのマニュアル動画や備忘録を前提に、視聴者の属性に応じて「どの時点から再生するか」「どのセクションを強調するか」を組み立てるためのUIです。
+            </p>
+            <div class="status-row">
               <div>
-                <span>Doctor Review</span>
-                <strong>問診内容を医師が確認</strong>
+                <span>現在の対象</span>
+                <strong id="activeAudienceLabel">新規の視聴者</strong>
+              </div>
+              <div>
+                <span>開始位置</span>
+                <strong id="startAtLabel">00:00</strong>
+              </div>
+              <div>
+                <span>出力先</span>
+                <strong>YouTube + Notes</strong>
               </div>
             </div>
-            <div class="medicine-stack" aria-label="処方薬写真差し替え枠">
-              <article class="mock-package package-one">
-                <span>ED Treatment</span>
-                <strong>処方薬A</strong>
-                <small>写真差し替え</small>
-              </article>
-              <article class="mock-package package-two">
-                <span>On Demand</span>
-                <strong>処方薬B</strong>
-                <small>写真差し替え</small>
-              </article>
+          </div>
+          <div class="hero-panel">
+            <div class="metric-card">
+              <span>セクション数</span>
+              <strong id="sectionCount">6</strong>
             </div>
-            <div class="calendar-chip">
-              <span>本日</span>
-              <strong>13:00 / 15:45 / 20:00</strong>
+            <div class="metric-card">
+              <span>推奨再生時間</span>
+              <strong id="recommendedDuration">12分30秒</strong>
+            </div>
+            <div class="metric-card">
+              <span>配信フロー</span>
+              <strong id="flowMode">自動分岐</strong>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="section concept-section" aria-labelledby="concept-title">
-        <div class="section-heading">
-          <p class="eyebrow">Three Directions</p>
-          <h2 id="concept-title">3つの候補を、同じLP内で比較できます。</h2>
-          <p>
-            上部の切り替えボタンで、コピーの温度感とビジュアルの方向性が変わります。実制作時は1案に絞って全体を統一します。
-          </p>
-        </div>
-        <div class="concept-grid">
-          <article>
-            <span class="concept-number">01</span>
-            <h3>シンプル版</h3>
-            <p>予約枠、料金、処方薬を最短で見せる構成。広告LPやリスティング流入に向いています。</p>
-          </article>
-          <article>
-            <span class="concept-number">02</span>
-            <h3>丁寧な説明版</h3>
-            <p>副作用、禁忌、服用方法、医師判断を厚く掲載。初診比率が高い場合に信頼を作れます。</p>
-          </article>
-          <article>
-            <span class="concept-number">03</span>
-            <h3>イラスト活用版</h3>
-            <p>明るいトーンで相談ハードルを下げる方向性。薬剤写真を併用して医療感も残します。</p>
-          </article>
-        </div>
-      </section>
+        <section class="content-grid">
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Audience Router</p>
+                <h3>視聴者ごとの開始タイミング</h3>
+              </div>
+              <span class="chip">Start Offset</span>
+            </div>
+            <div class="audience-grid" id="audienceList"></div>
+          </section>
 
-      <section id="medicine" class="section medicine-section">
-        <div class="section-heading split">
-          <div>
-            <p class="eyebrow">Medicine Lineup</p>
-            <h2>取り扱い処方薬の見せ方</h2>
-          </div>
-          <p>
-            薬剤の実名、容量、価格、写真は先生の取り扱い内容に合わせて差し替えます。ここでは販売ページとして成立する情報量を入れています。
-          </p>
-        </div>
+          <section class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Video Sections</p>
+                <h3>1本の動画を分割して編集</h3>
+              </div>
+              <span class="chip">Section Builder</span>
+            </div>
+            <div class="section-list" id="sectionList"></div>
+          </section>
+        </section>
 
-        <div class="medicine-grid">
-          <article class="medicine-card">
-            <div class="medicine-photo blue-pack">
-              <span>Photo</span>
-              <strong>薬剤写真</strong>
+        <section class="workflow-grid">
+          <section class="panel wide">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">YouTube Flow</p>
+                <h3>公開フローと手動メモ</h3>
+              </div>
+              <span class="chip">Publish Path</span>
             </div>
-            <div class="medicine-body">
-              <p class="pill-label">都度服用タイプ</p>
-              <h3>スタンダード処方</h3>
-              <p>初めての相談で選ばれやすい基本プラン。服用タイミングと注意点を診察時に確認します。</p>
-              <dl>
-                <div><dt>想定</dt><dd>初診 / 軽い相談</dd></div>
-                <div><dt>配送</dt><dd>最短翌日発送</dd></div>
-              </dl>
-            </div>
-          </article>
+            <ol class="flow-stepper" id="flowStepper"></ol>
+          </section>
 
-          <article class="medicine-card featured">
-            <div class="medicine-photo green-pack">
-              <span>Photo</span>
-              <strong>パッケージ</strong>
+          <aside class="panel config-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Config</p>
+                <h3>詳細設定</h3>
+              </div>
+              <span class="chip">Editable</span>
             </div>
-            <div class="medicine-body">
-              <p class="pill-label">人気導線</p>
-              <h3>ライフスタイル相談処方</h3>
-              <p>効果発現時間や持続時間、食事・飲酒との関係を踏まえて薬剤を相談するプラン。</p>
-              <dl>
-                <div><dt>想定</dt><dd>薬剤比較したい方</dd></div>
-                <div><dt>診療</dt><dd>オンライン対応</dd></div>
-              </dl>
-            </div>
-          </article>
 
-          <article class="medicine-card">
-            <div class="medicine-photo coral-pack">
-              <span>Photo</span>
-              <strong>配送箱</strong>
-            </div>
-            <div class="medicine-body">
-              <p class="pill-label">再診向け</p>
-              <h3>継続フォロープラン</h3>
-              <p>副作用や効果を確認しながら、再診で薬剤や数量を相談しやすい導線にします。</p>
-              <dl>
-                <div><dt>想定</dt><dd>再診 / 追加相談</dd></div>
-                <div><dt>管理</dt><dd>服用履歴を確認</dd></div>
-              </dl>
-            </div>
-          </article>
-        </div>
-      </section>
+            <label class="field">
+              動画タイトル
+              <input id="videoTitle" type="text" value="Video Craft Manual" />
+            </label>
 
-      <section id="price" class="section price-section">
-        <div class="price-card">
-          <div class="price-copy">
-            <p class="eyebrow">Price</p>
-            <h2>料金を先に見せ、予約前の不安を減らします。</h2>
-            <p>
-              ED治療は自由診療のため、診察料、薬剤費、送料、キャンセル規定を明確に見せることが重要です。公開時は実価格に差し替えてください。
-            </p>
-          </div>
-          <div class="price-table" role="table" aria-label="料金表">
-            <div class="price-row header" role="row">
-              <span role="columnheader">項目</span>
-              <span role="columnheader">表示例</span>
-              <span role="columnheader">備考</span>
-            </div>
-            <div class="price-row" role="row">
-              <span>診察料</span>
-              <strong>0円から</strong>
-              <span>処方がない場合の扱いも明記</span>
-            </div>
-            <div class="price-row" role="row">
-              <span>薬剤費</span>
-              <strong>1錠 xxx円</strong>
-              <span>薬剤ごとに税込表示</span>
-            </div>
-            <div class="price-row" role="row">
-              <span>送料</span>
-              <strong>xxx円</strong>
-              <span>院内受け取りも併記</span>
-            </div>
-          </div>
-        </div>
-      </section>
+            <label class="field">
+              配信モード
+              <select id="flowModeSelect">
+                <option value="auto">自動分岐</option>
+                <option value="manual">手動選択</option>
+                <option value="hybrid">ハイブリッド</option>
+              </select>
+            </label>
 
-      <section id="booking" class="section booking-section">
-        <div class="booking-left">
-          <p class="eyebrow">Booking System</p>
-          <h2>予約枠取得までを、LP内で完結する見え方に。</h2>
-          <p>
-            予約システム連携前でも、患者さんが「いつ診てもらえるか」を即時に判断できるUIにしています。実装時はカレンダーAPI、問診、決済と接続します。
-          </p>
-          <div class="booking-steps">
-            <span>1. 枠を選択</span>
-            <span>2. 問診入力</span>
-            <span>3. 医師診察</span>
-            <span>4. 処方・配送</span>
-          </div>
-        </div>
+            <label class="field">
+              既定の開始位置
+              <input id="defaultStart" type="text" value="00:00" />
+            </label>
 
-        <form class="booking-widget" aria-label="予約枠選択">
-          <div class="widget-header">
+            <label class="field">
+              冒頭の強調セクション
+              <select id="highlightSection"></select>
+            </label>
+
+            <label class="field">
+              公開先URL
+              <input id="youtubeUrl" type="url" value="https://youtube.com/" />
+            </label>
+
+            <label class="field">
+              備忘録
+              <textarea id="notes" rows="6">セクションごとの開始位置を調整し、視聴者の目的に合わせて再生開始点を変える。</textarea>
+            </label>
+
+            <div class="config-divider"></div>
+
+            <div class="composer">
+              <p class="composer-title">セクション追加</p>
+              <label class="field">
+                セクション名
+                <input id="newSectionTitle" type="text" placeholder="例: まとめと次のアクション" />
+              </label>
+              <label class="field">
+                長さ
+                <input id="newSectionDuration" type="text" placeholder="例: 01:20" />
+              </label>
+              <label class="field">
+                内容メモ
+                <textarea id="newSectionSummary" rows="4" placeholder="この区間で話す内容"></textarea>
+              </label>
+              <button class="secondary-button full-button" type="button" id="addSection">セクションを追加</button>
+            </div>
+
+            <button class="secondary-button full-button" type="button" id="applyConfig">プレビューへ反映</button>
+          </aside>
+        </section>
+
+        <section class="panel timeline-panel">
+          <div class="panel-heading">
             <div>
-              <span>Available Today</span>
-              <strong>6月8日（月）</strong>
+              <p class="eyebrow">Timeline Preview</p>
+              <h3>手元で確認する再生順</h3>
             </div>
-            <p>残り 6枠</p>
+            <span class="chip" id="timelineChip">00:00 から開始</span>
           </div>
-          <div class="visit-toggle" role="group" aria-label="診療種別">
-            <button type="button" class="is-selected">オンライン初診</button>
-            <button type="button">再診</button>
+          <div class="timeline" id="timeline"></div>
+        </section>
+
+        <section class="panel notes-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Working Notes</p>
+              <h3>自分用メモ</h3>
+            </div>
+            <span class="chip">Local Storage</span>
           </div>
-          <label>
-            希望日
-            <select>
-              <option>本日 6月8日</option>
-              <option>明日 6月9日</option>
-              <option>6月10日</option>
-            </select>
-          </label>
-          <div class="slot-grid" aria-label="予約可能時間">
-            <button type="button">10:30</button>
-            <button type="button">11:15</button>
-            <button type="button" class="is-selected">13:00</button>
-            <button type="button">15:45</button>
-            <button type="button">18:30</button>
-            <button type="button">20:00</button>
+          <div class="notes-layout">
+            <div class="note-card">
+              <h4>構築メモ</h4>
+              <ul id="memoList"></ul>
+            </div>
+            <div class="note-card">
+              <h4>保存済みConfig</h4>
+              <pre id="configSnapshot"></pre>
+            </div>
           </div>
-          <p class="selected-slot">選択中: 本日 13:00 オンライン初診</p>
-          <button class="primary-button full" type="button">問診入力へ進む</button>
-          <small>予約確定前に、自由診療の費用と注意事項を表示します。</small>
-        </form>
-      </section>
-
-      <section id="safety" class="section safety-section">
-        <div class="section-heading split">
-          <div>
-            <p class="eyebrow">Medical Safety</p>
-            <h2>医療広告として必要な慎重さも入れます。</h2>
-          </div>
-          <p>
-            効果保証や過度な安さ訴求ではなく、医師の診察、禁忌確認、副作用説明、適切な処方判断を前面に出します。
-          </p>
-        </div>
-        <div class="safety-grid">
-          <article>
-            <h3>併用薬チェック</h3>
-            <p>硝酸薬など、併用できない薬があるため問診と診察で確認します。</p>
-          </article>
-          <article>
-            <h3>副作用説明</h3>
-            <p>頭痛、ほてり、動悸、消化器症状などの可能性を事前に案内します。</p>
-          </article>
-          <article>
-            <h3>処方不可の明記</h3>
-            <p>健康状態や既往歴によっては処方できない場合があることを明確にします。</p>
-          </article>
-          <article>
-            <h3>プライバシー</h3>
-            <p>外装、配送名、院内導線の配慮を掲載し、相談しやすさを高めます。</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section doctor-section">
-        <div class="doctor-card">
-          <div class="doctor-photo" aria-hidden="true">
-            <span></span>
-          </div>
-          <div>
-            <p class="eyebrow">Doctor Message</p>
-            <h2>「薬を売る」より先に、相談できる医療体験へ。</h2>
-            <p>
-              ED治療は、薬剤選択だけでなく生活習慣、既往歴、服薬状況の確認が大切です。サイト上ではスピード感を出しつつ、医師が確認する安心感を明確にします。
-            </p>
-            <p class="doctor-name">監修医師名・所属クリニック名を掲載</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="faq" class="section faq-section">
-        <div class="section-heading">
-          <p class="eyebrow">FAQ</p>
-          <h2>予約前の疑問</h2>
-        </div>
-        <div class="faq-list">
-          <details open>
-            <summary>誰でも処方を受けられますか？</summary>
-            <p>いいえ。問診と診察の結果、併用薬や既往歴によって処方できない場合があります。</p>
-          </details>
-          <details>
-            <summary>薬剤写真やパッケージ写真は使えますか？</summary>
-            <p>実際の取り扱い薬剤を正確に示す目的で、権利、薬機法、医療広告ガイドラインを確認したうえで掲載します。</p>
-          </details>
-          <details>
-            <summary>予約システムは後から接続できますか？</summary>
-            <p>可能です。カレンダー、オンライン問診、決済、電子カルテの仕様に合わせてAPI連携または外部リンク連携にします。</p>
-          </details>
-        </div>
-      </section>
-
-      <section class="compliance-note" aria-label="注意事項">
-        <h2>公開前チェック</h2>
-        <p>
-          本ページはデザインプロトタイプです。公開前に、医療広告ガイドライン、薬機法、特定商取引法、個人情報保護、オンライン診療指針、薬剤写真の権利確認を行ってください。
-        </p>
-      </section>
-    </main>
-
-    <aside class="mobile-cta" aria-label="固定予約導線">
-      <a href="#booking">本日の予約枠を見る</a>
-    </aside>
-
-    <footer class="site-footer">
-      <p>© うめむら半蔵門内科歯科 Prototype</p>
-      <a href="#top">ページ上部へ</a>
-    </footer>
+        </section>
+      </main>
+    </header>
 
     <script src="./script.js"></script>
   </body>
